@@ -1,0 +1,41 @@
+
+/.env
+
+# Media files
+/uploads/picture/*
+
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+dist/
+build/
+eggs/
+*.egg-info/
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+pipenv/
+
+
+# Django generated files
+*.log
+*.pot
+*.pyc
+
+# Other
+node_modules/
+*.env
+.DS_Store
+.idea/
+.vscode/
