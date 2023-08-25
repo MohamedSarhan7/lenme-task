@@ -122,7 +122,7 @@ class ScheduledPayments(models.Model):
   investor=models.ForeignKey(CustomUser, on_delete=models.Case)
   loan=models.ForeignKey(Loan, on_delete=models.CASCADE)
   payment_amount=models.DecimalField(max_digits=10,decimal_places=2)
-  payment_date=models.DateField()
+  payment_date=models.DateField(db_index=True)
   is_paid = models.BooleanField(default=False)
   is_last_payment = models.BooleanField(default=False)
   created_at=models.DateTimeField(auto_now_add=True)
