@@ -93,7 +93,7 @@ class OfferDetails(APIView):
                     offer.save()
                     scheduled_payments= ScheduledPayments.objects.filter(loan=offer.loan)
                     serializer= ScheduledPaymentsSerializer(scheduled_payments,many=True)
-                    return Response(data=serializer.data)
+                    return Response(data=serializer.data,status=status.HTTP_200_OK)
             
             return Response({"error":"is_accepted not valid "},status=status.HTTP_400_BAD_REQUEST)    
                 

@@ -12,8 +12,8 @@ urlpatterns = [
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     
     # loan
-    path('loans', LoanList.as_view()),
-    path('offers', OfferList.as_view()),
-    path('offers/<int:id>', OfferDetails.as_view()),
-    path('loans/<int:id>/offers', GetOffersbyLoan.as_view())
+    path('loans', LoanList.as_view(),name='loan-list'),
+    path('offers', OfferList.as_view(),name='offer-list'),
+    path('offers/<int:id>', OfferDetails.as_view(),name='offer-details'),
+    path('loans/<int:id>/offers', GetOffersbyLoan.as_view(),name='offers-by-loan')
 ]
