@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404
 from django.http import Http404
 
 from .serializers import RegisterSerializer,LoanSerializer,OfferSerializer,ScheduledPaymentsSerializer
-from .models import Loan,Offer,ScheduledPayments
+from .models import Loan,Offer,ScheduledPayments,UserType
 # Create your views here.
 
 @api_view([ 'POST'])
@@ -41,7 +41,7 @@ class LoanList(APIView):
     def post(self,request):
         data = request.data.copy()
         data['borrower'] = request.user.id
-        if request.user.type!= "BORROWER":
+        if request.user.type!= UserType.BORRWOER:
             return Response(data={"error":"not allowed"},status=status.HTTP_403_FORBIDDEN)
         serializer = LoanSerializer(data=data)
         serializer.is_valid(raise_exception=True)
@@ -64,12 +64,16 @@ class OfferList(APIView):
     def post(self, request):
         data = request.data.copy()
         data['investor'] = request.user.id
-        if request.user.type!= "INVESTOR":
+        if request.user.type!= UserType.INVESTOR:
             return Response(data={"error":"not allowed"},status=status.HTTP_403_FORBIDDEN)
-        # loan=get_object_or_404(Loan,pk=data['loan'])
+        loan=get_object_or_404(Loan,pk=data['loan'])
+        if not request.user.check_balance(loan.loan_amount):
+            return Response(data={"error":"balance not enough"},status=status.HTTP_400_BAD_REQUEST)
+            
         serializer = OfferSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        
         return Response(data=serializer.data,status=status.HTTP_201_CREATED)
 
 

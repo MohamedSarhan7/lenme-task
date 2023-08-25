@@ -6,20 +6,25 @@ from dateutil.relativedelta import relativedelta
 from decimal import Decimal
 # Create your models here.
 
+class UserType(models.TextChoices):
+    BORRWOER = "BORRWOER"
+    INVESTOR = "INVESTOR"
+    
+class LoanStatus(models.TextChoices):
+    FUNDED = "FUNDED"
+    PENDING = "PENDING"
+    COMPLETED ="COMPLETED"
+
 class CustomUser(AbstractUser):
-  class UserType(models.TextChoices):
-      BORRWOER = "BORRWOER"
-      INVESTOR = "INVESTOR"
   type = models.CharField(max_length=250,choices=UserType.choices,default=UserType.BORRWOER)
   balance = models.DecimalField(default=0.00,max_digits=10,decimal_places=2)
   
+  def check_balance(self,amount):
+      return self.balance >= amount
 
 class Loan(models.Model):
   
-    class LoanStatus(models.TextChoices):
-        FUNDED = "FUNDED"
-        PENDING = "PENDING"
-        COMPLETED ="COMPLETED"
+
         
     borrower = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="borrower_loans")
     loan_amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -88,7 +93,7 @@ class Offer(models.Model):
     """Create scheduled payments and recalculate the loan total amount if offer accepted"""
     if self.is_accepted:
       
-      self.loan.loan_status = "FUNDED"
+      self.loan.loan_status = LoanStatus.FUNDED
       self.loan.calc_loan_amount_after_annual_interest_rate(self.annual_interest_rate)
       self.loan.save()
       
