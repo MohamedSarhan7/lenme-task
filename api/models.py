@@ -22,7 +22,7 @@ class CustomUser(AbstractUser):
   def check_balance(self,amount):
       return self.balance >= amount
   
-  def transfare_money(self,user,amount):
+  def transfer_money(self,user,amount):
     if self.check_balance(amount):
       self.balance -= amount
       user.balance +=amount
@@ -107,7 +107,7 @@ class Offer(models.Model):
       self.loan.save()
       
       self.loan.create_scheduled_payments(self.investor)
-      self.investor.transfare_money(self.loan.borrower, self.loan.loan_amount)
+      self.investor.transfer_money(self.loan.borrower, self.loan.loan_amount)
       super().save(*args, **kwargs)
         
     else:
