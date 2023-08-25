@@ -72,7 +72,7 @@ class Loan(models.Model):
     
 class Offer(models.Model):
   investor=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
-  loan=models.ForeignKey(Loan, on_delete=models.CASCADE)
+  loan=models.ForeignKey(Loan, on_delete=models.CASCADE,related_name='offers')
   annual_interest_rate=models.DecimalField(max_digits=10,decimal_places=2,default=0.00,help_text="out of 100% ")
   is_accepted=models.BooleanField(default=False)
   created_at=models.DateTimeField(auto_now_add=True)

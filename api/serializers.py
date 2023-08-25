@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.hashers import make_password
-from .models import CustomUser,Loan
+from .models import CustomUser,Loan,Offer,ScheduledPayments
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
@@ -30,3 +30,22 @@ class LoanSerializer(serializers.ModelSerializer):
             'updated_at'
             ]
         read_only_fields =('loan_status', 'loan_amount_after_annual_interest_rate', 'total_loan_amount',)
+        
+class OfferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Offer
+        fields=[
+            'id',
+            'investor',
+            'loan',
+            'annual_interest_rate',
+            'is_accepted',
+            'created_at',
+            'updated_at'
+            ]
+        read_only_fields =('is_accepted',)
+        
+class ScheduledPaymentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=ScheduledPayments
+        fields='__all__'
