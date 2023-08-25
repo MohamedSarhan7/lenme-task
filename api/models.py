@@ -30,6 +30,9 @@ class Loan(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
     
+    class Meta:
+        ordering = ["-created_at"]
+        
     @property
     def total_loan_amount(self):
       # pass
@@ -74,6 +77,9 @@ class Offer(models.Model):
   is_accepted=models.BooleanField(default=False)
   created_at=models.DateTimeField(auto_now_add=True)
   updated_at=models.DateTimeField(auto_now=True)
+  
+  class Meta:
+        ordering = ["-created_at"]
   
   def __str__(self) -> str:
     return self.investor.username
