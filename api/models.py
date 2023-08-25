@@ -10,7 +10,7 @@ class CustomUser(AbstractUser):
   class UserType(models.TextChoices):
       BORRWOER = "BORRWOER"
       INVESTOR = "INVESTOR"
-  type = models.CharField(max_length=250,choices=UserType.choices)
+  type = models.CharField(max_length=250,choices=UserType.choices,default=UserType.BORRWOER)
   balance = models.DecimalField(default=0.00,max_digits=10,decimal_places=2)
   
 
